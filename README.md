@@ -1,6 +1,6 @@
 # DEP Data Engineering Cohort 1
 
-# Author: Mark Cabael
+# AUTHOR: Mark Cabael
 
 # MILESTONE M0 SUBMISSION:
 
@@ -12,11 +12,30 @@ TITLE: BahaPredict: Building an Automated Regional Weather Data Pipeline in the 
 
 # ​2. Who Would Care About the Answer
 
-​The Stakeholders: Local Disaster Risk Reduction Offices (LDRRMOs) and regional planners.
+Primary Stakeholders:
+
+-Local Disaster Risk Reduction and Management Offices (LDRRMOs)
+-Local Government Units (LGUs)
+-Regional Planning and Development Offices
+
+Secondary Stakeholders:
+
+-Farmers and agricultural agencies
+-Infrastructure planners
+-Environmental researchers
+-Emergency response teams
 
 # ​3. ​Why they care
 
-Instead of relying on temporary social media updates and downloading unstructured large datasets in the internet, these offices need structured data, knowing exactly where rainfall anomalies occur and when they peak allows LGUs to proactively dredge channels, time crop planting, and allocate infrastructure budgets before the dangerous months hit.
+Many local government offices still rely on scattered reports, social media updates, and manually downloaded weather datasets when assessing flood risks. By automating the collection, cleaning, and analysis of historical rainfall data, decision-makers can access structured and reliable information about where and when extreme rainfall events occur most frequently.
+
+Understanding regional rainfall patterns helps stakeholders:
+
+- Identify flood-prone areas more accurately.
+- Prepare drainage and flood-control infrastructure before high-risk months.
+- Improve disaster preparedness and emergency response planning.
+- Support agricultural scheduling and crop protection strategies.
+- Allocate public resources and infrastructure budgets more effectively.
 
 # ​4. ​At Least One Possible Data Source
 
