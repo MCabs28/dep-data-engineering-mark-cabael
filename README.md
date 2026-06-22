@@ -1,92 +1,44 @@
-# DAI Data Engineering Program (DEP)
+# DEP Data Engineering Cohort 1
 
-> A 6-month, self-paced, project-driven learning journey. Participants build a real, deployable data project using free and open-source tools.
+# AUTHOR: Mark Cabael
 
-**Cohort:** June – November 2026 &nbsp;|&nbsp; **Time:** ~5 hrs/week &nbsp;|&nbsp; **Cost:** Free
+# MILESTONE M0 SUBMISSION:
 
----
+TITLE: BahaPredict: Building an Automated Regional Weather Data Pipeline in the Philippines
 
-## What You'll Build
+# ​1. A Specific, Answerable Question
 
-By the end of the program, every participant will have:
+​Question: Which Philippine regions experience the highest frequency of extreme daily rainfall events, and in which exact months do these localized flood risks peak historically?
 
-- A **public GitHub repo** with a clean, documented data project
-- A **live deployed dashboard** (GitHub Pages)
-- An **end-to-end data pipeline** (ingest → clean → analyze → deploy)
+# ​2. Who Would Care About the Answer
 
----
+Primary Stakeholders:
 
-## How to Use This Repo
+-Local Disaster Risk Reduction and Management Offices (LDRRMOs)
+-Local Government Units (LGUs)
+-Regional Planning and Development Offices
 
-This is the **program hub** — it contains the curriculum, weekly resources, and milestone guides.
+Secondary Stakeholders:
 
-**Participants:** Follow the phase folders in order. Each week folder has resources, tasks, and links.
+-Farmers and agricultural agencies
+-Infrastructure planners
+-Environmental researchers
+-Emergency response teams
 
-**Volunteers:** See [docs/VOLUNTEER_GUIDE.md](docs/VOLUNTEER_GUIDE.md) for your role and responsibilities.
+# ​3. ​Why they care
 
----
+Many local government offices still rely on scattered reports, social media updates, and manually downloaded weather datasets when assessing flood risks. By automating the collection, cleaning, and analysis of historical rainfall data, decision-makers can access structured and reliable information about where and when extreme rainfall events occur most frequently.
 
-## Curriculum
+Understanding regional rainfall patterns helps stakeholders:
 
-| Phase | Weeks | Focus | Output |
-|-------|-------|-------|--------|
-| [01 — Foundations](01-foundations/) | 1–4 | Problem framing, Git, Python basics, APIs | Defined problem statement + first data pull |
-| [02 — Data Collection](02-data-collection/) | 5–8 | APIs, web scraping, ingestion | Raw dataset saved locally |
-| [03 — Data Processing](03-data-processing/) | 9–12 | Cleaning, structuring with pandas | Clean, schema-defined dataset |
-| [04 — Analysis & Insights](04-analysis-and-insights/) | 13–16 | EDA, visualization | Insights notebook with 3–5 charts |
-| [05 — Project Packaging](05-project-packaging/) | 17–20 | Repo cleanup, documentation | Professional, shareable repo |
-| [06 — Deployment](06-deployment/) | 21–24 | Static dashboard, GitHub Pages | Live, publicly accessible project |
+- Identify flood-prone areas more accurately.
+- Prepare drainage and flood-control infrastructure before high-risk months.
+- Improve disaster preparedness and emergency response planning.
+- Support agricultural scheduling and crop protection strategies.
+- Allocate public resources and infrastructure budgets more effectively.
 
----
+# ​4. ​At Least One Possible Data Source
 
-## Milestones
-
-Progress is tracked through 7 milestones (M0–M6). Each one has a clear output and a submission form.
-
-| Milestone | When | Output |
-|-----------|------|--------|
-| M0 — Problem Statement | End of Week 1 | Defined question + public repo |
-| M1 — Data Source Identified | End of Week 5 | Dataset chosen and documented |
-| M2 — Data Ingestion Script | End of Week 8 | Working `01_ingest.py` |
-| M3 — Clean Dataset | End of Week 12 | Working `02_clean.py` + clean data |
-| M4 — Initial Insights | End of Week 16 | Notebook with 3–5 charts |
-| M5 — Public Repo | End of Week 20 | Clean, presentable GitHub repo |
-| M6 — Live Deployment | End of Week 24 | Live dashboard on GitHub Pages |
-
-Full checklist: [docs/MILESTONE_CHECKLIST.md](docs/MILESTONE_CHECKLIST.md)
-
----
-
-## Getting Started (Participants)
-
-1. **Join the community** — [Discord link here]
-2. **Set up your project repo** — use the [DEP Starter Kit](https://github.com/dai-dep/dep-starter-kit) template
-3. **Start Phase 1** — go to [01-foundations/](01-foundations/) and begin Week 1
-
----
-
-## Tools Used
-
-| Tool | Purpose |
-|------|---------|
-| Python (pandas, requests) | Data processing and ingestion |
-| GitHub + Git | Version control and portfolio |
-| Jupyter / VS Code | Development environment |
-| Plotly / Matplotlib | Visualization |
-| GitHub Pages + Actions | Deployment and CI/CD |
-
----
-
-## Cohorts
-
-- [2026 Cohort](cohorts/2026/) — June–November 2026 *(current)*
-
----
-
-## For Volunteers
-
-See [docs/VOLUNTEER_GUIDE.md](docs/VOLUNTEER_GUIDE.md) for role descriptions, responsibilities, and the operating rhythm.
-
----
-
-*Built by the DAI Community. Free and open. Always.*
+​Data Source: The Open-Meteo Historical Weather API.
+​Legality & Availability: Open-Meteo provides free, open-license access to its meteorological archives.
+Link: https://open-meteo.com/
