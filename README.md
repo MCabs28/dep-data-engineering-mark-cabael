@@ -1,44 +1,64 @@
 # DEP Data Engineering Cohort 1
 
-# AUTHOR: Mark Cabael
+## Author
+**Mark Cabael**
 
-# MILESTONE M0 SUBMISSION:
+# Milestone M1 Submission
 
-TITLE: BahaPredict: Building an Automated Regional Weather Data Pipeline in the Philippines
+## Project Title
+**BahaPredict: Building an Automated Regional Weather Data Pipeline in the Philippines**
 
-# ​1. A Specific, Answerable Question
+## 1. Research Question
 
-​Question: Which Philippine regions experience the highest frequency of extreme daily rainfall events, and in which exact months do these localized flood risks peak historically?
+**Which Philippine regions experience the highest frequency of extreme daily rainfall events, and during which months do localized flood risks historically peak?**
 
-# ​2. Who Would Care About the Answer
+## 2. Stakeholders
 
-Primary Stakeholders:
+### Primary Stakeholders
+- Local Disaster Risk Reduction and Management Offices (LDRRMOs)
+- Local Government Units (LGUs)
+- Regional Planning and Development Offices
 
--Local Disaster Risk Reduction and Management Offices (LDRRMOs)
--Local Government Units (LGUs)
--Regional Planning and Development Offices
+### Secondary Stakeholders
+- Farmers and agricultural agencies
+- Infrastructure planners
+- Environmental researchers
+- Emergency response teams
 
-Secondary Stakeholders:
+## 3. Why This Matters
 
--Farmers and agricultural agencies
--Infrastructure planners
--Environmental researchers
--Emergency response teams
+Many local government agencies still rely on scattered reports, social media updates, and manually downloaded weather datasets to assess flood risks. By automating the collection, cleaning, and analysis of historical rainfall data, this project aims to provide structured and reliable insights into where and when extreme rainfall events occur most frequently.
 
-# ​3. ​Why they care
+These insights can help stakeholders:
 
-Many local government offices still rely on scattered reports, social media updates, and manually downloaded weather datasets when assessing flood risks. By automating the collection, cleaning, and analysis of historical rainfall data, decision-makers can access structured and reliable information about where and when extreme rainfall events occur most frequently.
-
-Understanding regional rainfall patterns helps stakeholders:
-
-- Identify flood-prone areas more accurately.
-- Prepare drainage and flood-control infrastructure before high-risk months.
+- Identify flood-prone regions more accurately.
+- Prepare drainage systems and flood-control infrastructure before high-risk months.
 - Improve disaster preparedness and emergency response planning.
-- Support agricultural scheduling and crop protection strategies.
+- Support agricultural planning and crop protection strategies.
 - Allocate public resources and infrastructure budgets more effectively.
 
-# ​4. ​At Least One Possible Data Source
 
-​Data Source: The Open-Meteo Historical Weather API.
-​Legality & Availability: Open-Meteo provides free, open-license access to its meteorological archives.
-Link: https://open-meteo.com/
+## 4. Data Source
+
+### Selected Data Source
+**Open-Meteo Historical Weather API**
+
+### Why This Source?
+The Open-Meteo Historical Weather API provides free and open-access historical weather data, making it well-suited for building automated ETL pipelines for rainfall analysis across the Philippines.
+
+### Data Availability
+- Free to use
+- Open-license access
+- No API key required for most historical data endpoints
+
+### Website
+https://open-meteo.com/
+
+## Repository Status
+
+- Working repository created
+- Data source selected
+- Research question defined
+- Stakeholders identified
+- Project rationale completed
+- README documentation completed
