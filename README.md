@@ -12,7 +12,7 @@
 
 # 1. Research Question
 
-**Which Philippine regions experience the highest frequency of extreme daily rainfall events, and during which months do localized flood risks historically peak?**
+**Which Philippine regions experience the highest frequency of extreme daily rainfall events, and during which months do periods of elevated rainfall historically occur that may contribute to increased localized flood risk?**
 
 # 2. Stakeholders
 
@@ -29,21 +29,86 @@
 - Environmental researchers
 - Emergency response teams
 
-
 # 3. Why This Matters
 
-Many local government agencies still rely on scattered reports, social media updates, and manually downloaded weather datasets to assess flood risks. By automating the collection, cleaning, and analysis of historical rainfall data, this project aims to provide structured and reliable insights into where and when extreme rainfall events occur most frequently.
+Many government agencies, researchers, and planners rely on historical weather data to better understand long-term rainfall patterns. However, weather datasets are often obtained from multiple sources and require manual downloading, cleaning, and preparation before they can be analyzed.
 
-These insights can help stakeholders:
+This project aims to automate the collection, storage, and preparation of historical rainfall data into a structured dataset that supports regional rainfall analysis across the Philippines.
 
-- Identify flood-prone regions more accurately.
-- Prepare drainage systems and flood-control infrastructure before high-risk months.
-- Improve disaster preparedness and emergency response planning.
-- Support agricultural planning and crop protection strategies.
-- Allocate public resources and infrastructure budgets more effectively.
+The resulting dataset can help stakeholders:
 
+- Identify regions that consistently experience higher frequencies of extreme rainfall events.
+- Determine months when unusually heavy rainfall has historically occurred.
+- Support disaster preparedness and planning by providing historical rainfall insights that may contribute to localized flood risk assessments.
+- Assist agricultural planning by understanding seasonal rainfall patterns.
+- Provide a reusable and automated data pipeline for future weather and environmental analyses.
+
+> **Note:** This project analyzes historical rainfall patterns only. Rainfall is one of several factors that influence flooding and should be interpreted as a potential indicator rather than a direct measurement or prediction of flood risk.
 
 # 4. Data Source & Ingestion
+
+## Overview
+
+The ingestion pipeline automatically retrieves historical daily rainfall data from the **Open-Meteo Historical Weather API** using Python and stores the original API response without modification.
+
+The pipeline is designed to be repeatable, allowing the latest data to be downloaded whenever the script is executed.
+
+## Data Source
+
+- **Source:** Open-Meteo Historical Weather API
+- **Data Format:** JSON
+- **Access Method:** HTTP GET request using the Python `requests` library
+
+## Raw Data Storage
+
+The original API response is stored in the following directory:
+
+```text
+data/
+└── raw/
+```
+
+Each execution creates timestamped files to preserve every ingestion run.
+
+Example:
+
+```text
+data/raw/
+├── rainfall_20260726_061500.json
+└── rainfall_20260726_061500_metadata.json
+```
+
+## Metadata
+
+Alongside each raw JSON file, a metadata file is generated containing:
+
+- Data source
+- API request URL
+- Retrieval timestamp
+- File format
+
+This ensures every downloaded dataset is traceable and reproducible.
+
+## Running the Ingestion Script
+
+From the project root, execute:
+
+```bash
+python scripts/ingest.py
+```
+
+The script will:
+
+1. Send a request to the Open-Meteo Historical Weather API.
+2. Download the historical rainfall data.
+3. Save the raw JSON response in `data/raw/`.
+4. Save a metadata file containing the source URL and retrieval timestamp.
+
+## Repeatability
+
+The ingestion process is fully repeatable. Running the script multiple times generates new timestamped raw data and metadata files without overwriting previous ingestions.
+
+
 
 ## Primary Data Source
 
@@ -53,6 +118,7 @@ These insights can help stakeholders:
 - **Direct API Endpoint:** `https://archive-api.open-meteo.com/v1/archive`
 
 ### Example API Request
+
 https://archive-api.open-meteo.com/v1/archive?latitude=14.2117&longitude=121.1653&start_date=2026-01-01&end_date=2026-06-30&daily=precipitation_sum&timezone=Asia/Manila
 
 ### Data Format
@@ -63,7 +129,9 @@ https://archive-api.open-meteo.com/v1/archive?latitude=14.2117&longitude=121.165
 
 #### Geographic Scope
 
-The ETL pipeline covers all **17 administrative regions of the Philippines**. Historical weather data will be retrieved using the latitude and longitude coordinates of each region's representative capital city.
+The ETL pipeline covers all **17 administrative regions of the Philippines**. Historical weather data will initially be retrieved using the latitude and longitude coordinates of one representative location within each region. These representative coordinates serve as sampling points for regional comparison and are not intended to capture the full spatial variability of rainfall across an entire region.
+
+Future iterations of the project may incorporate multiple observation points or gridded weather datasets to provide a more comprehensive representation of regional rainfall patterns.
 
 | Region                          | Representative Location        | Latitude | Longitude |
 | ------------------------------- | ------------------------------ | -------- | --------- |
@@ -87,7 +155,13 @@ The ETL pipeline covers all **17 administrative regions of the Philippines**. Hi
 
 #### Temporal Coverage
 
-The project analyzes approximately **20 years of historical rainfall data (2006–2026)** to provide statistically meaningful insights into long-term rainfall patterns and seasonal flood risks. The API request shown above is a sample request used to demonstrate data access.
+The project analyzes approximately **20 years of historical rainfall data (2006–2025)** to identify long-term rainfall patterns and seasonal variations across Philippine regions. The API request shown above is provided as a sample request to demonstrate data access.
+
+# 5. Definition of Extreme Rainfall
+
+For this project, an **extreme rainfall event** is defined as a day with **50 millimeters (mm) or more of total daily precipitation**.
+
+This threshold is used for analytical purposes to identify unusually heavy rainfall events across regions and support consistent comparisons. It is intended as a project-specific definition and may be refined in future iterations using meteorological standards or official guidance from PAGASA.
 
 ## Backup Data Source
 
@@ -106,22 +180,35 @@ https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR&comm
 
 ### Purpose
 
-The NASA POWER API serves as the project's backup data source. If the Open-Meteo API becomes unavailable or returns incomplete data, the ETL pipeline will retrieve historical precipitation data from NASA POWER using the same regional coordinates.
+The NASA POWER API serves as the project's backup data source. If the Open-Meteo API becomes unavailable or returns incomplete data, the ETL pipeline will retrieve historical precipitation data using the same representative regional coordinates.
 
+# 6. Planned Ingestion Method
 
-# Planned Ingestion Method
-
-### Method
+## Method
 
 Automated HTTP GET requests using Python (`requests` library).
 
-### Ingestion Strategy
+## Ingestion Strategy
 
 - Load a coordinate mapping file containing representative locations for all 17 Philippine administrative regions.
-- Iterate through each region and submit API requests using its latitude and longitude.
-- Extract historical weather data in manageable yearly batches to reduce request failures and improve pipeline reliability.
-- Store raw JSON responses in a dedicated landing zone before performing any transformations.
-- Transform the raw data into structured tabular datasets for downstream analysis and loading into the target database.
+- Iterate through each representative location and submit API requests using its latitude and longitude.
+- Extract historical weather data in manageable yearly batches to improve reliability and reduce request failures.
+- Store the original API responses in a raw landing zone before performing any transformations.
+- Transform the raw data into structured datasets for downstream analysis and database loading.
+
+# 7. Project Scope
+
+This project focuses on building an automated data engineering pipeline that collects, stores, and prepares historical rainfall data for analysis.
+
+The project does **not** attempt to predict flooding or estimate flood probability. Instead, it analyzes historical rainfall patterns that may contribute to localized flood risk when considered alongside other environmental and geographic factors.
+
+The primary objective is to produce reliable, reproducible, and analysis-ready rainfall datasets that can support future environmental and disaster-related studies.
+
+# 8. Project Limitations
+
+This project uses one representative geographic coordinate for each Philippine administrative region to simplify data collection and enable regional comparisons. Because rainfall can vary significantly within a region, these representative locations should not be interpreted as fully representing rainfall conditions across the entire region.
+
+Additionally, this project analyzes historical rainfall data only. Flood occurrence is influenced by many other factors, including topography, river systems, drainage infrastructure, land use, soil conditions, and tidal conditions. Therefore, the results should be interpreted as indicators of historical rainfall intensity rather than direct measurements or predictions of flood risk.
 
 # Repository Status
 
@@ -133,5 +220,7 @@ Automated HTTP GET requests using Python (`requests` library).
 - Backup data source documented
 - API access paths documented
 - Geographic and temporal coverage documented
-- Planned ingestion strategy defined
+- Definition of extreme rainfall established
+- Planned ingestion strategy documented
+- Project scope and limitations documented
 - README documentation completed

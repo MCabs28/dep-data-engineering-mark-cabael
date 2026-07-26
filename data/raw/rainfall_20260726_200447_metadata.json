@@ -1,0 +1,6 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=14.2117&longitude=121.1653&start_date=2026-01-01&end_date=2026-06-30&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-07-26T20:04:47.747707",
+    "format": "JSON"
+}
