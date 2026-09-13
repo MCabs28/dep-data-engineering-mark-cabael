@@ -1,0 +1,12 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=13.1391&longitude=123.7438&start_date=2026-01-01&end_date=2026-08-31&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-09-12T16:52:18.249181",
+    "format": "JSON",
+    "region": "Region V (Bicol)",
+    "location": "Legazpi City",
+    "latitude": 13.1391,
+    "longitude": 123.7438,
+    "start_date": "2026-01-01",
+    "end_date": "2026-08-31"
+}

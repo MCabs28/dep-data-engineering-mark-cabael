@@ -1,0 +1,12 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=7.1907&longitude=125.4553&start_date=2026-01-01&end_date=2026-08-31&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-09-12T16:52:32.180994",
+    "format": "JSON",
+    "region": "Region XI (Davao Region)",
+    "location": "Davao City",
+    "latitude": 7.1907,
+    "longitude": 125.4553,
+    "start_date": "2026-01-01",
+    "end_date": "2026-08-31"
+}
