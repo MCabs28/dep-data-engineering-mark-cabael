@@ -209,7 +209,7 @@ date,region,location,latitude,longitude,precipitation_mm,precipitation_missing,i
 2026-07-27,BARMM,Cotabato City,7.205624,124.26396,4.0,False,False
 2026-07-28,BARMM,Cotabato City,7.205624,124.26396,1.2,False,False
 2026-07-29,BARMM,Cotabato City,7.205624,124.26396,3.5,False,False
-2026-07-30,BARMM,Cotabato City,7.205624,124.26396,1.7,False,False
+2026-07-30,BARMM,Cotabato City,7.205624,124.26396,1.6,False,False
 2026-07-31,BARMM,Cotabato City,7.205624,124.26396,11.9,False,False
 2026-08-01,BARMM,Cotabato City,7.205624,124.26396,1.0,False,False
 2026-08-02,BARMM,Cotabato City,7.205624,124.26396,2.4,False,False
@@ -451,8 +451,8 @@ date,region,location,latitude,longitude,precipitation_mm,precipitation_missing,i
 2026-07-26,CAR,Baguio City,16.414762,120.57089,7.7,False,False
 2026-07-27,CAR,Baguio City,16.414762,120.57089,1.7,False,False
 2026-07-28,CAR,Baguio City,16.414762,120.57089,16.9,False,False
-2026-07-29,CAR,Baguio City,16.414762,120.57089,10.9,False,False
-2026-07-30,CAR,Baguio City,16.414762,120.57089,4.9,False,False
+2026-07-29,CAR,Baguio City,16.414762,120.57089,12.9,False,False
+2026-07-30,CAR,Baguio City,16.414762,120.57089,5.7,False,False
 2026-07-31,CAR,Baguio City,16.414762,120.57089,13.3,False,False
 2026-08-01,CAR,Baguio City,16.414762,120.57089,12.2,False,False
 2026-08-02,CAR,Baguio City,16.414762,120.57089,8.1,False,False
@@ -1180,8 +1180,8 @@ date,region,location,latitude,longitude,precipitation_mm,precipitation_missing,i
 2026-07-26,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,4.6,False,False
 2026-07-27,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,7.8,False,False
 2026-07-28,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,13.6,False,False
-2026-07-29,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,4.9,False,False
-2026-07-30,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,14.8,False,False
+2026-07-29,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,5.7,False,False
+2026-07-30,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,15.0,False,False
 2026-07-31,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,5.0,False,False
 2026-08-01,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,0.9,False,False
 2026-08-02,Region I (Ilocos),"San Fernando, La Union",16.625658,120.31489,7.1,False,False
@@ -3367,7 +3367,7 @@ date,region,location,latitude,longitude,precipitation_mm,precipitation_missing,i
 2026-07-26,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,9.4,False,False
 2026-07-27,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,3.0,False,False
 2026-07-28,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,13.7,False,False
-2026-07-29,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,3.4,False,False
+2026-07-29,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,2.5,False,False
 2026-07-30,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,8.4,False,False
 2026-07-31,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,23.7,False,False
 2026-08-01,Region X (Northern Mindanao),Cagayan de Oro,8.471002,124.63917,1.3,False,False
@@ -3610,7 +3610,7 @@ date,region,location,latitude,longitude,precipitation_mm,precipitation_missing,i
 2026-07-26,Region XI (Davao Region),Davao City,7.205624,125.48223,3.0,False,False
 2026-07-27,Region XI (Davao Region),Davao City,7.205624,125.48223,22.7,False,False
 2026-07-28,Region XI (Davao Region),Davao City,7.205624,125.48223,3.0,False,False
-2026-07-29,Region XI (Davao Region),Davao City,7.205624,125.48223,3.9,False,False
+2026-07-29,Region XI (Davao Region),Davao City,7.205624,125.48223,5.9,False,False
 2026-07-30,Region XI (Davao Region),Davao City,7.205624,125.48223,9.2,False,False
 2026-07-31,Region XI (Davao Region),Davao City,7.205624,125.48223,8.2,False,False
 2026-08-01,Region XI (Davao Region),Davao City,7.205624,125.48223,5.1,False,False
@@ -4096,7 +4096,7 @@ date,region,location,latitude,longitude,precipitation_mm,precipitation_missing,i
 2026-07-26,Region XIII (Caraga),Butuan City,8.963093,125.548836,4.5,False,False
 2026-07-27,Region XIII (Caraga),Butuan City,8.963093,125.548836,3.4,False,False
 2026-07-28,Region XIII (Caraga),Butuan City,8.963093,125.548836,4.1,False,False
-2026-07-29,Region XIII (Caraga),Butuan City,8.963093,125.548836,2.0,False,False
+2026-07-29,Region XIII (Caraga),Butuan City,8.963093,125.548836,1.5,False,False
 2026-07-30,Region XIII (Caraga),Butuan City,8.963093,125.548836,10.7,False,False
 2026-07-31,Region XIII (Caraga),Butuan City,8.963093,125.548836,15.6,False,False
 2026-08-01,Region XIII (Caraga),Butuan City,8.963093,125.548836,0.7,False,False

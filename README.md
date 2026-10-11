@@ -647,3 +647,124 @@ The terminal output from `run_queries.py` displays the results of the three busi
 * M3 README documentation updated
 * Current dataset updated through August 31, 2026
 * 4,131 processed records validated
+
+
+## 16. M4 
+
+Milestone 4 performs exploratory analysis on the processed rainfall dataset generated during M3. The objective is to identify initial rainfall patterns across 17 representative locations in the Philippines using Python, Pandas, and Matplotlib.
+
+The analysis is documented in the Jupyter Notebook:
+
+`notebooks/m4_initial_insights.ipynb`
+
+The notebook analyzes the following business questions:
+
+1. Which representative locations recorded the highest number of extreme rainfall days?
+2. Which months recorded the highest average daily rainfall across the representative locations?
+3. Which representative locations recorded the highest total rainfall during the observation period?
+
+## 17. Visualizations and Initial Findings
+
+## 17.1 Extreme Rainfall Days by Representative Location
+
+**Output:** `output/figures/01_extreme_rainfall_days.png`
+
+This chart compares the number of days with daily precipitation of at least 50 mm across the 17 representative locations.
+
+**Initial finding:** Baguio City recorded 13 extreme rainfall days, followed by San Fernando, La Union, with 11. These findings describe the selected locations during January–August 2026 and do not represent complete measurements for their entire administrative regions.
+
+## 17.2 Average Daily Rainfall by Month
+
+**Output:** `output/figures/02_average_rainfall_by_month.png`
+
+This chart compares average daily rainfall across the 17 representative locations for each month from January through August 2026.
+
+**Initial finding:** August recorded the highest average daily rainfall at approximately 12.15 mm, followed by July at 9.22 mm. April recorded the lowest average at approximately 1.55 mm.
+
+Because the observation period covers only eight months of 2026, these results should not be interpreted as long-term seasonal trends.
+
+## 17.3 Total Rainfall by Representative Location
+
+**Output:** `output/figures/03_total_rainfall_by_location.png`
+
+This chart compares cumulative daily precipitation for each representative location during the observation period.
+
+**Initial finding:** Baguio City recorded the highest total rainfall at approximately 3,038.8 mm, followed by San Fernando, La Union, at 2,068.4 mm, and Davao City at 1,849.3 mm.
+
+These totals represent the selected locations rather than complete regional rainfall totals.
+
+## 18. Key Inferences
+
+The initial analysis suggests that rainfall patterns varied across the representative locations during January–August 2026. Baguio City ranked highest in both extreme rainfall days and total rainfall, while August had the highest average daily rainfall across the selected locations.
+
+These findings are descriptive and do not establish that rainfall caused flooding or that any location experienced a specific level of flood risk. A more complete assessment would require additional historical observations, multiple sampling locations per region, and other relevant factors such as topography, drainage, land use, and river conditions.
+
+## 19. M4 Limitations
+
+* The dataset covers January 1 through August 31, 2026 only.
+* Each administrative region is represented by one selected location.
+* Extreme rainfall is defined using the project's threshold of at least 50 mm/day.
+* Rainfall observations do not directly measure flood occurrence or flood probability.
+* Longer historical coverage and additional locations would improve future analysis.
+
+## 20. How to Run the M4 Analysis
+
+Run these commands from the project root.
+
+## Step 1: Install Dependencies
+
+```bash
+pip install pandas matplotlib jupyter
+```
+
+## Step 2: Confirm the Processed Dataset Exists
+
+The notebook uses:
+
+```text
+data/processed/rainfall_clean.csv
+```
+
+If this file has not been generated, run the ingestion and transformation scripts first:
+
+```bash
+python scripts/ingest.py
+python scripts/transform.py
+```
+
+## Step 3: Launch Jupyter Notebook
+
+```bash
+jupyter notebook
+```
+
+Open `notebooks/m4_initial_insights.ipynb`.
+
+In VS Code, you can also open the notebook directly from the Explorer.
+
+## Step 4: Run the Notebook
+
+Select **Run All** to execute the cells in order. The notebook loads the processed dataset, performs the three analyses, displays the charts, and presents the interpretations.
+
+## Step 5: Verify the Output Figures
+
+After successful execution, confirm that the following files exist:
+
+```text
+output/
+└── figures/
+    ├── 01_extreme_rainfall_days.png
+    ├── 02_average_rainfall_by_month.png
+    └── 03_total_rainfall_by_location.png
+```
+
+## M4 Completion Checklist
+
+* Processed M3 dataset loaded successfully.
+* Dataset overview and validation completed.
+* Three charts generated with clear titles and axis labels.
+* Each chart includes a written interpretation.
+* Key inferences documented without unsupported causal claims.
+* Project limitations documented.
+* Figures saved to `output/figures/`.
+* Notebook runs successfully from beginning to end.

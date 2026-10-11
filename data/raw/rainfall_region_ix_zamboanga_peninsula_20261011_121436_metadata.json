@@ -1,0 +1,12 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=7.8257&longitude=123.437&start_date=2026-01-01&end_date=2026-08-31&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-10-11T12:14:36.236073",
+    "format": "JSON",
+    "region": "Region IX (Zamboanga Peninsula)",
+    "location": "Pagadian City",
+    "latitude": 7.8257,
+    "longitude": 123.437,
+    "start_date": "2026-01-01",
+    "end_date": "2026-08-31"
+}
