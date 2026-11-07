@@ -27,7 +27,7 @@ RAW_DATA_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data", "raw"))
 BASE_URL = "https://archive-api.open-meteo.com/v1/archive"
 
 START_DATE = "2026-01-01"
-END_DATE = "2026-08-31"
+END_DATE = "2026-10-31"
 
 
 # ============================================================

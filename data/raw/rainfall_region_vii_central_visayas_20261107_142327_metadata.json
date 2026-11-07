@@ -1,0 +1,12 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=10.3157&longitude=123.8854&start_date=2026-01-01&end_date=2026-08-31&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-11-07T14:23:27.360918",
+    "format": "JSON",
+    "region": "Region VII (Central Visayas)",
+    "location": "Cebu City",
+    "latitude": 10.3157,
+    "longitude": 123.8854,
+    "start_date": "2026-01-01",
+    "end_date": "2026-08-31"
+}

@@ -21,14 +21,46 @@ OUTPUT_FILE = os.path.join(PROCESSED_DATA_DIR, "rainfall_clean.csv")
 EXTREME_RAINFALL_THRESHOLD = 50.0
 
 
-def transform():
+def get_latest_raw_files():
+    """Select the latest raw JSON file for each region."""
+
     raw_files = glob.glob(os.path.join(RAW_DATA_DIR, "rainfall_*.json"))
 
     # Exclude metadata files
     raw_files = [file for file in raw_files if not file.endswith("_metadata.json")]
 
-    if not raw_files:
-        raise FileNotFoundError("No raw rainfall JSON files found in data/raw/")
+    latest_by_region = {}
+
+    for raw_file in raw_files:
+        metadata_file = raw_file.replace(".json", "_metadata.json")
+
+        if not os.path.exists(metadata_file):
+            raise FileNotFoundError(f"Metadata file not found: {metadata_file}")
+
+        with open(metadata_file, "r", encoding="utf-8") as f:
+            metadata = json.load(f)
+
+        region = metadata["region"]
+        retrieved_at = pd.to_datetime(metadata["retrieved_at"])
+
+        if region not in latest_by_region or retrieved_at > latest_by_region[region][0]:
+            latest_by_region[region] = (retrieved_at, raw_file)
+
+    if len(latest_by_region) != 17:
+        raise ValueError(f"Expected 17 regions, found {len(latest_by_region)}.")
+
+    latest_files = [item[1] for item in latest_by_region.values()]
+
+    print(f"Latest raw files selected: {len(latest_files)}")
+
+    for region, (timestamp, filepath) in sorted(latest_by_region.items()):
+        print(f"{region}: {os.path.basename(filepath)} " f"({timestamp})")
+
+    return latest_files
+
+
+def transform():
+    raw_files = get_latest_raw_files()
 
     records = []
 

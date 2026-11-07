@@ -4,7 +4,7 @@
 
 Mark Cabael
 
-# Milestone M3 Submission
+# Milestone M5 Submission
 
 ## Project Title
 
@@ -49,17 +49,19 @@ Note: This project analyzes historical rainfall patterns only. Rainfall is one o
 
 ## Overview
 
-The ingestion pipeline automatically retrieves historical daily rainfall data from the Open-Meteo Historical Weather API using Python and stores the original API response without modification.
+The ingestion pipeline automatically retrieves historical daily rainfall data from the Open-Meteo Historical Weather API using Python and stores the original API responses without modification.
 
 The pipeline retrieves rainfall data for representative locations across all 17 Philippine administrative regions.
 
-The pipeline is repeatable, allowing the data to be downloaded again whenever the script is executed.
+The pipeline is repeatable, allowing historical rainfall data to be downloaded again whenever the script is executed.
 
 ## Data Source
 
-* Source: Open-Meteo Historical Weather API
-* Data Format: JSON
-* Access Method: HTTP GET request using the Python `requests` library
+- Source: Open-Meteo Historical Weather API
+- Data Format: JSON
+- Access Method: HTTP GET request using the Python `requests` library
+- Daily Variable: `precipitation_sum`
+- Timezone: Asia/Manila
 
 ## Raw Data Storage
 
@@ -70,17 +72,17 @@ data/
 └── raw/
 ```
 
-Each execution creates timestamped files to preserve every ingestion run.
+Each execution creates timestamped files to preserve individual ingestion runs.
 
 Example:
 
 ```text
 data/raw/
 
-├── rainfall_ncr_20260909_205355.json
-├── rainfall_ncr_20260909_205355_metadata.json
-├── rainfall_car_20260909_205357.json
-├── rainfall_car_20260909_205357_metadata.json
+├── rainfall_ncr_20261108_153448.json
+├── rainfall_ncr_20261108_153448_metadata.json
+├── rainfall_car_20261108_153450.json
+├── rainfall_car_20261108_153450_metadata.json
 └── ...
 ```
 
@@ -88,16 +90,16 @@ data/raw/
 
 Alongside each raw JSON file, a metadata file is generated containing:
 
-* Data source
-* API request URL
-* Retrieval timestamp
-* File format
-* Region
-* Representative location
-* Latitude and longitude
-* Start and end dates
+- Data source
+- API request URL
+- Retrieval timestamp
+- File format
+- Region
+- Representative location
+- Latitude and longitude
+- Start and end dates
 
-This ensures every downloaded dataset is traceable and reproducible.
+This ensures that every downloaded dataset is traceable and reproducible.
 
 ## Running the Ingestion Script
 
@@ -131,7 +133,7 @@ The ingestion process is repeatable. Each execution creates new timestamped raw 
 ## Example API Request
 
 ```text
-https://archive-api.open-meteo.com/v1/archive?latitude=14.2117&longitude=121.1653&start_date=2026-01-01&end_date=2026-08-31&daily=precipitation_sum&timezone=Asia/Manila
+https://archive-api.open-meteo.com/v1/archive?latitude=14.2117&longitude=121.1653&start_date=2026-01-01&end_date=2026-10-31&daily=precipitation_sum&timezone=Asia/Manila
 ```
 
 ## Data Format
@@ -168,15 +170,15 @@ One representative location is used for each region as a sampling point for regi
 
 ### Temporal Coverage
 
-The project is designed to analyze historical rainfall patterns across Philippine regions.
+The project analyzes historical daily rainfall data across the 17 representative regional locations.
 
-The current M3 implementation contains rainfall data for:
+The current processed dataset covers:
 
-January 1, 2026 – August 31, 2026
+**January 1, 2026 – October 31, 2026**
 
-for all 17 representative regional locations.
+This provides 304 daily observations for each representative location, resulting in 5,168 observations across all 17 locations.
 
-The planned 2006–2025 period represents a future historical analysis scope and is not currently included in the processed dataset.
+The current implementation focuses on the 2026 reporting period. A longer historical analysis covering 2006–2025 is not included in the current processed dataset.
 
 # 5. Definition of Extreme Rainfall
 
@@ -196,7 +198,7 @@ It is a project-specific definition and may be refined in future iterations usin
 ## Example API Request
 
 ```text
-https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR&community=AG&latitude=14.2117&longitude=121.1653&start=20260101&end=20260831&format=JSON
+https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR&community=AG&latitude=14.2117&longitude=121.1653&start=20260101&end=20261031&format=JSON
 ```
 
 ## Data Format
@@ -207,7 +209,7 @@ https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR&comm
 
 The NASA POWER API serves as the project's backup data source. If the Open-Meteo API becomes unavailable or returns incomplete data, the ETL pipeline can retrieve historical precipitation data using the representative regional coordinates.
 
-# 6. Planned Ingestion Method
+# 6. Ingestion Method
 
 ## Method
 
@@ -286,12 +288,20 @@ The `precipitation_missing` field allows missing observations to be identified d
 
 The latest transformation successfully processed:
 
-* 17 regions
-* 4,131 records
-* 243 records per region
-* Date range: January 1, 2026 – August 31, 2026
+- 17 Philippine administrative regions
+- 17 representative locations
+- 5,168 daily rainfall observations
+- 304 observations per representative location
+- Date range: January 1, 2026 – October 31, 2026
 
-All required fields passed validation, with 0 missing values in the processed dataset.
+The processed dataset passed the validation checks:
+
+- 0 missing precipitation values
+- 0 negative precipitation values
+- 0 duplicate observations
+- 304 unique observation dates for each representative location
+
+All required fields passed validation.
 
 # 9. M3 Business Questions
 
@@ -305,98 +315,88 @@ sql/business_questions.sql
 
 The queries are executed using DuckDB.
 
-## Business Question 1
+### Business Question 1: Which representative locations recorded the highest number of extreme daily rainfall events?
 
-Which regions experience the highest number of extreme rainfall days?
+An extreme rainfall event is defined in this project as daily precipitation equal to or greater than 50 mm.
 
-The query counts observations where daily precipitation is at least 50 mm and groups the results by region.
+| Region | Representative Location | Extreme Rainfall Days |
+|---|---|---:|
+| CAR | Baguio City | 15 |
+| Region I | San Fernando, La Union | 12 |
+| Region VIII | Tacloban City | 4 |
+| MIMAROPA | Calapan City | 3 |
+| Region XI | Davao City | 3 |
+| BARMM | Cotabato City | 2 |
+| Region III | City of San Fernando, Pampanga | 2 |
+| Region V | Legazpi City | 2 |
+| Region VI | Iloilo City | 2 |
+| Region VII | Cebu City | 2 |
+| Region X | Cagayan de Oro City | 2 |
+| Region XIII | Butuan City | 2 |
+| NCR | Manila | 1 |
+| Region II | Tuguegarao City | 1 |
+| Region XII | Koronadal City | 1 |
+| Region IV-A | Calamba City | 0 |
+| Region IX | Pagadian City | 0 |
 
-### Current Results
+**Key Finding:**
 
-| Region                          | Representative Location        | Extreme Rainfall Days |
-| ------------------------------- | ------------------------------ | --------------------: |
-| CAR                             | Baguio City                    |                    13 |
-| Region I (Ilocos)               | San Fernando, La Union         |                    11 |
-| Region VIII (Eastern Visayas)   | Tacloban City                  |                     4 |
-| MIMAROPA                        | Calapan City                   |                     3 |
-| Region XI (Davao Region)        | Davao City                     |                     3 |
-| BARMM                           | Cotabato City                  |                     2 |
-| NCR                             | Manila                         |                     2 |
-| Region III (Central Luzon)      | City of San Fernando, Pampanga |                     2 |
-| Region V (Bicol)                | Legazpi City                   |                     2 |
-| Region VI (Western Visayas)     | Iloilo City                    |                     2 |
-| Region VII (Central Visayas)    | Cebu City                      |                     2 |
-| Region X (Northern Mindanao)    | Cagayan de Oro                 |                     2 |
-| Region XIII (Caraga)            | Butuan City                    |                     2 |
-| Region II (Cagayan Valley)      | Tuguegarao City                |                     1 |
-| Region XII (SOCCSKSARGEN)       | Koronadal City                 |                     1 |
-| Region IV-A (CALABARZON)        | Calamba City                   |                     0 |
-| Region IX (Zamboanga Peninsula) | Pagadian City                  |                     0 |
+Baguio City recorded the highest number of extreme rainfall days, with 15 observations. San Fernando, La Union followed with 12. These results identify the two representative locations with the highest frequency of project-defined extreme rainfall events during the reporting period.
 
-### Interpretation
+### Business Question 2: During which months was average daily rainfall highest across the representative locations?
 
-Based on the current January–August 2026 dataset, CAR recorded the highest number of extreme rainfall days with 13, followed by Region I (Ilocos) with 11.
+The monthly average represents the mean daily rainfall across all available representative-location observations for each month.
 
-Region IV-A (CALABARZON) and Region IX (Zamboanga Peninsula) recorded no observations meeting the project's 50 mm/day extreme rainfall threshold during the current period.
+| Month | Average Daily Rainfall (mm) |
+|---|---:|
+| January | 4.44 |
+| February | 6.92 |
+| March | 2.08 |
+| April | 1.55 |
+| May | 5.44 |
+| June | 5.96 |
+| July | 9.13 |
+| August | 12.15 |
+| September | 8.38 |
+| October | 7.13 |
 
-These results represent the selected representative locations and should not be interpreted as complete rainfall measurements for entire regions.
+**Key Finding:**
 
-## Business Question 2
+August recorded the highest average daily rainfall at 12.15 mm, followed by July at 9.13 mm. April recorded the lowest average at 1.55 mm. The results show an increase in average rainfall from May through August, followed by a decline in September and October.
 
-Which months have the highest average daily rainfall across the 17 representative regional locations?
+### Business Question 3: Which representative locations recorded the highest total rainfall during the reporting period?
 
-### Current Results
+| Representative Location | Total Rainfall (mm) |
+|---|---:|
+| Baguio City | 3,762.3 |
+| San Fernando, La Union | 2,484.0 |
+| Davao City | 2,230.8 |
+| Pagadian City | 2,210.7 |
+| Tacloban City | 1,917.7 |
+| Cebu City | 1,881.5 |
+| Cotabato City | 1,843.4 |
+| Manila | 1,826.7 |
+| Calapan City | 1,788.6 |
+| Cagayan de Oro City | 1,779.9 |
+| Iloilo City | 1,779.3 |
+| Koronadal City | 1,771.4 |
+| City of San Fernando, Pampanga | 1,729.7 |
+| Legazpi City | 1,701.4 |
+| Butuan City | 1,440.4 |
+| Calamba City | 1,395.5 |
+| Tuguegarao City | 1,140.7 |
 
-| Month    | Average Rainfall |
-| -------- | ---------------: |
-| August   |         12.15 mm |
-| July     |          9.22 mm |
-| February |          6.92 mm |
-| June     |          5.96 mm |
-| May      |          5.44 mm |
-| January  |          4.44 mm |
-| March    |          2.08 mm |
-| April    |          1.55 mm |
+**Key Finding:**
 
-### Interpretation
+Baguio City recorded the highest total rainfall at 3,762.3 mm, followed by San Fernando, La Union at 2,484.0 mm and Davao City at 2,230.8 mm. Tuguegarao City recorded the lowest total rainfall at 1,140.7 mm among the representative locations.
 
-August recorded the highest average daily rainfall across the 17 representative locations at 12.15 mm, followed by July at 9.22 mm.
+### M3 Summary
 
-April recorded the lowest average daily rainfall during the current January–August period at 1.55 mm.
+The three business questions provide an initial overview of extreme rainfall frequency, monthly rainfall patterns, and total rainfall across the 17 representative locations.
 
-## Business Question 3
+The results highlight Baguio City and San Fernando, La Union as locations with the highest number of project-defined extreme rainfall observations. August recorded the highest average daily rainfall across the dataset.
 
-Which Philippine regions recorded the highest total rainfall during the current period?
-
-### Current Results
-
-| Region                          | Representative Location        | Total Rainfall |
-| ------------------------------- | ------------------------------ | -------------: |
-| CAR                             | Baguio City                    |      3038.8 mm |
-| Region I (Ilocos)               | San Fernando, La Union         |      2068.4 mm |
-| Region XI (Davao Region)        | Davao City                     |      1849.3 mm |
-| Region VIII (Eastern Visayas)   | Tacloban City                  |      1506.0 mm |
-| Region IX (Zamboanga Peninsula) | Pagadian City                  |      1483.3 mm |
-| BARMM                           | Cotabato City                  |      1435.0 mm |
-| NCR                             | Manila                         |      1346.1 mm |
-| Region XII (SOCCSKSARGEN)       | Koronadal City                 |      1331.6 mm |
-| Region VII (Central Visayas)    | Cebu City                      |      1303.7 mm |
-| MIMAROPA                        | Calapan City                   |      1294.9 mm |
-| Region V (Bicol)                | Legazpi City                   |      1275.4 mm |
-| Region X (Northern Mindanao)    | Cagayan de Oro                 |      1261.1 mm |
-| Region III (Central Luzon)      | City of San Fernando, Pampanga |      1253.9 mm |
-| Region XIII (Caraga)            | Butuan City                    |      1204.7 mm |
-| Region VI (Western Visayas)     | Iloilo City                    |      1189.8 mm |
-| Region IV-A (CALABARZON)        | Calamba City                   |       986.5 mm |
-| Region II (Cagayan Valley)      | Tuguegarao City                |       866.1 mm |
-
-### Interpretation
-
-Based on the current January–August 2026 dataset, CAR recorded the highest total rainfall at 3038.8 mm, followed by Region I (Ilocos) at 2068.4 mm and Region XI (Davao Region) at 1849.3 mm.
-
-Region II (Cagayan Valley) recorded the lowest total rainfall among the 17 representative locations at 866.1 mm.
-
-These results are based on the selected representative locations and should not be interpreted as complete rainfall totals for the entire regions.
+These findings are based on representative locations and the January–October 2026 reporting period. They should not be interpreted as complete measurements of rainfall across entire Philippine regions.
 
 # 10. Processed Dataset
 
@@ -445,36 +445,37 @@ The primary objective is to produce reliable, reproducible, and analysis-ready r
 
 # 12. Project Limitations
 
-This project uses one representative geographic coordinate for each Philippine administrative region to simplify data collection and enable regional comparisons.
+This project uses one representative geographic coordinate for each of the 17 Philippine administrative regions to simplify data collection and enable regional comparisons.
 
 Because rainfall can vary significantly within a region, these representative locations should not be interpreted as fully representing rainfall conditions across the entire region.
 
-Additionally, the current dataset covers only January 1, 2026 to August 31, 2026. Therefore, the current results should not be interpreted as long-term historical climate patterns.
+The current processed dataset covers January 1, 2026 to October 31, 2026. This ten-month reporting period is insufficient to establish long-term historical climate patterns or fully characterize seasonal rainfall variability.
 
 The planned 2006–2025 historical analysis is not currently included in the processed dataset.
 
 The project also analyzes rainfall data only. Flood occurrence is influenced by many other factors, including:
 
-* Topography
-* River systems
-* Drainage infrastructure
-* Land use
-* Soil conditions
-* Tidal conditions
-* Other environmental and geographic factors
+- Topography
+- River systems
+- Drainage infrastructure
+- Land use
+- Soil conditions
+- Tidal conditions
+- Other environmental and geographic factors
 
-Therefore, the results should be interpreted as indicators of historical rainfall intensity rather than direct measurements or predictions of flood risk.
+The 50 mm/day extreme rainfall threshold is a project-defined analytical threshold and is not presented as an official PAGASA classification.
 
-# 13. Project Structure
+Therefore, the results should be interpreted as indicators of historical rainfall patterns rather than direct measurements or predictions of flood risk.
+
+## 13. Project Structure
 
 ```text
-dep-data-engineering-mark-cabael/
-
+BahaPredict/
 │
 ├── data/
 │   ├── raw/
-│   │   ├── rainfall_*.json
-│   │   └── rainfall_*_metadata.json
+│   │   ├── Original API response JSON files
+│   │   └── Metadata files
 │   │
 │   ├── processed/
 │   │   └── rainfall_clean.csv
@@ -489,282 +490,183 @@ dep-data-engineering-mark-cabael/
 ├── sql/
 │   └── business_questions.sql
 │
+├── notebooks/
+│   ├── m4_initial_insights.ipynb
+│   └── m5_rainfall_distribution.ipynb
+│
+├── output/
+│   ├── analysis/
+│   │   ├── high_extreme_rainfall_by_location.csv
+│   │   ├── monthly_stakeholder_kpis.csv
+│   │   ├── rainfall_category_by_location.csv
+│   │   ├── rainfall_descriptive_statistics.csv
+│   │   └── stakeholder_rainfall_kpis.csv
+│   │
+│   └── figures/
+│       ├── 01_extreme_rainfall_days.png
+│       ├── 02_average_rainfall_by_month.png
+│       ├── 03_total_rainfall_by_location.png
+│       ├── 04_rainfall_distribution_by_location.png
+│       ├── 05_mean_vs_median_rainfall.png
+│       ├── 06_rainfall_category_composition.png
+│       ├── 07_monthly_total_rainfall.png
+│       └── 08_monthly_extreme_rainfall.png
+│
+├── dashboard/
+├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
-# 14. How to Run the Pipeline
+## 14. How to Run Pipeline
 
-The following steps allow reviewers to reproduce the ingestion, transformation, and SQL analysis workflow.
-
-## Step 1: Install Dependencies
-
-From the project root, activate the virtual environment and install the required Python packages:
-
+### 1. Clone the Repository
 ```bash
-pip install requests pandas duckdb
+ git clone https://github.com/MCabs28/dep-data-engineering-mark-cabael.git
 ```
 
-## Step 2: Run Ingestion
+### 2. Create and Activate a Virtual Environment
 
-Run:
+```bash
+python -m venv venv
+```
+
+For macOS/Linux:
+
+```bash
+source venv/bin/activate
+```
+
+For Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the Data Ingestion Script
 
 ```bash
 python scripts/ingest.py
 ```
 
-This retrieves daily rainfall data for all 17 representative regional locations from the Open-Meteo Historical Weather API.
+This retrieves historical daily rainfall data from Open-Meteo for all 17 representative locations.
 
-The raw JSON responses and metadata files are saved to:
-
-```text
-data/raw/
-```
-
-Expected result:
-
-```text
-Successful regions: 17/17
-Failed regions: 0/17
-```
-
-## Step 3: Run Transformation
-
-After ingestion completes, run:
+### 5. Transform the Raw Data
 
 ```bash
 python scripts/transform.py
 ```
 
-This processes the raw JSON files, applies the cleaning and validation rules, and generates:
+This processes the raw API responses, validates the rainfall records, and generates:
 
 ```text
 data/processed/rainfall_clean.csv
 ```
 
-Expected validation result:
-
-```text
-Regions processed: 17
-Records processed: 4131
-```
-
-The current dataset contains 4,131 records, with 243 daily observations for each of the 17 regions.
-
-## Step 4: Run Business Queries
-
-After the transformation completes, run:
+### 6. Run the M3 Business Queries
 
 ```bash
 python scripts/run_queries.py
 ```
 
-This executes the three SQL business questions using DuckDB and displays the results in the terminal.
+This executes the three SQL business questions using DuckDB.
 
-The SQL source file is:
+### 7. Run the M4 and M5 Analysis Notebooks
 
-```text
-sql/business_questions.sql
-```
-
-The three queries answer:
-
-1. Which regions experience the highest number of extreme rainfall days?
-2. Which months have the highest average daily rainfall across the 17 representative locations?
-3. Which Philippine regions recorded the highest total rainfall during the current period?
-
-## Recommended Full Pipeline
-
-To reproduce the complete workflow from raw data collection through analysis, run the following commands in order:
-
-```bash
-pip install requests pandas duckdb
-
-python scripts/ingest.py
-
-python scripts/transform.py
-
-python scripts/run_queries.py
-```
-
-## Pipeline Output
-
-After running the complete pipeline, the main outputs are:
-
-```text
-data/raw/
-    ├── rainfall_*.json
-    └── rainfall_*_metadata.json
-
-data/processed/
-    └── rainfall_clean.csv
-```
-
-The terminal output from `run_queries.py` displays the results of the three business questions.
-
-# 15. Repository Status
-
-## M1
-
-* Public repository created
-* Research question defined
-* Stakeholders identified
-* Project rationale completed
-* Primary data source documented
-* Backup data source documented
-* API access paths documented
-* Geographic coverage documented
-* Temporal coverage documented
-* Definition of extreme rainfall established
-* Planned ingestion strategy documented
-* Project scope and limitations documented
-
-## M2
-
-* Raw Open-Meteo API ingestion implemented
-* Raw JSON responses preserved
-* Timestamped raw files implemented
-* Metadata files implemented
-* Ingestion script tested successfully
-* 17 regional ingestion implemented
-* Raw data stored in `data/raw/`
-
-## M3
-
-* Schema plan documented
-* Dataset grain defined
-* Logical identifier defined
-* Processed dataset created
-* 17 Philippine administrative regions processed
-* Missing values handled and documented
-* Column data types transformed appropriately
-* Cleaning decisions documented
-* Validation checks implemented
-* Deterministic transformation implemented
-* Three SQL business questions implemented
-* SQL analysis executed successfully
-* Processed dataset stored in `data/processed/`
-* M3 data dictionary updated
-* M3 README documentation updated
-* Current dataset updated through August 31, 2026
-* 4,131 processed records validated
-
-
-## 16. M4 
-
-Milestone 4 performs exploratory analysis on the processed rainfall dataset generated during M3. The objective is to identify initial rainfall patterns across 17 representative locations in the Philippines using Python, Pandas, and Matplotlib.
-
-The analysis is documented in the Jupyter Notebook:
-
-`notebooks/m4_initial_insights.ipynb`
-
-The notebook analyzes the following business questions:
-
-1. Which representative locations recorded the highest number of extreme rainfall days?
-2. Which months recorded the highest average daily rainfall across the representative locations?
-3. Which representative locations recorded the highest total rainfall during the observation period?
-
-## 17. Visualizations and Initial Findings
-
-## 17.1 Extreme Rainfall Days by Representative Location
-
-**Output:** `output/figures/01_extreme_rainfall_days.png`
-
-This chart compares the number of days with daily precipitation of at least 50 mm across the 17 representative locations.
-
-**Initial finding:** Baguio City recorded 13 extreme rainfall days, followed by San Fernando, La Union, with 11. These findings describe the selected locations during January–August 2026 and do not represent complete measurements for their entire administrative regions.
-
-## 17.2 Average Daily Rainfall by Month
-
-**Output:** `output/figures/02_average_rainfall_by_month.png`
-
-This chart compares average daily rainfall across the 17 representative locations for each month from January through August 2026.
-
-**Initial finding:** August recorded the highest average daily rainfall at approximately 12.15 mm, followed by July at 9.22 mm. April recorded the lowest average at approximately 1.55 mm.
-
-Because the observation period covers only eight months of 2026, these results should not be interpreted as long-term seasonal trends.
-
-## 17.3 Total Rainfall by Representative Location
-
-**Output:** `output/figures/03_total_rainfall_by_location.png`
-
-This chart compares cumulative daily precipitation for each representative location during the observation period.
-
-**Initial finding:** Baguio City recorded the highest total rainfall at approximately 3,038.8 mm, followed by San Fernando, La Union, at 2,068.4 mm, and Davao City at 1,849.3 mm.
-
-These totals represent the selected locations rather than complete regional rainfall totals.
-
-## 18. Key Inferences
-
-The initial analysis suggests that rainfall patterns varied across the representative locations during January–August 2026. Baguio City ranked highest in both extreme rainfall days and total rainfall, while August had the highest average daily rainfall across the selected locations.
-
-These findings are descriptive and do not establish that rainfall caused flooding or that any location experienced a specific level of flood risk. A more complete assessment would require additional historical observations, multiple sampling locations per region, and other relevant factors such as topography, drainage, land use, and river conditions.
-
-## 19. M4 Limitations
-
-* The dataset covers January 1 through August 31, 2026 only.
-* Each administrative region is represented by one selected location.
-* Extreme rainfall is defined using the project's threshold of at least 50 mm/day.
-* Rainfall observations do not directly measure flood occurrence or flood probability.
-* Longer historical coverage and additional locations would improve future analysis.
-
-## 20. How to Run the M4 Analysis
-
-Run these commands from the project root.
-
-## Step 1: Install Dependencies
-
-```bash
-pip install pandas matplotlib jupyter
-```
-
-## Step 2: Confirm the Processed Dataset Exists
-
-The notebook uses:
-
-```text
-data/processed/rainfall_clean.csv
-```
-
-If this file has not been generated, run the ingestion and transformation scripts first:
-
-```bash
-python scripts/ingest.py
-python scripts/transform.py
-```
-
-## Step 3: Launch Jupyter Notebook
+Launch Jupyter Notebook or JupyterLab:
 
 ```bash
 jupyter notebook
 ```
 
-Open `notebooks/m4_initial_insights.ipynb`.
+Open the following notebooks:
 
-In VS Code, you can also open the notebook directly from the Explorer.
+- `notebooks/m4_initial_insights.ipynb`
+- `notebooks/m5_rainfall_distribution.ipynb`
 
-## Step 4: Run the Notebook
+Run the notebook cells to reproduce the visualizations, descriptive statistics, rainfall segmentation, stakeholder KPIs, and analysis outputs.
 
-Select **Run All** to execute the cells in order. The notebook loads the processed dataset, performs the three analyses, displays the charts, and presents the interpretations.
+### Expected Dataset
 
-## Step 5: Verify the Output Figures
+After a successful transformation, the processed dataset should contain:
 
-After successful execution, confirm that the following files exist:
+- 17 representative locations
+- 304 daily observations per location
+- 5,168 total observations
+- Reporting period: January 1, 2026 – October 31, 2026
 
-```text
-output/
-└── figures/
-    ├── 01_extreme_rainfall_days.png
-    ├── 02_average_rainfall_by_month.png
-    └── 03_total_rainfall_by_location.png
+The generated CSV analysis files are saved in `output/analysis/`, while visualization images are saved in `output/figures/`.
+
+
+### 15. Run the Complete Pipeline
+
+To execute the complete data pipeline in sequence, run:
+
+```bash
+python scripts/run_pipeline.py
 ```
 
-## M4 Completion Checklist
+This script runs the following steps:
 
-* Processed M3 dataset loaded successfully.
-* Dataset overview and validation completed.
-* Three charts generated with clear titles and axis labels.
-* Each chart includes a written interpretation.
-* Key inferences documented without unsupported causal claims.
-* Project limitations documented.
-* Figures saved to `output/figures/`.
-* Notebook runs successfully from beginning to end.
+1. Ingest rainfall data from the Open-Meteo API.
+2. Transform and validate the raw rainfall data.
+3. Execute the SQL business questions.
+
+
+
+## 16. Repository Status
+
+The BahaPredict project has completed the initial data engineering pipeline, exploratory analysis, and stakeholder-focused rainfall analysis milestones.
+
+### Completed Milestones
+
+**M1 — Project Planning**
+- Defined the research question and project objectives.
+- Identified target stakeholders and their information needs.
+- Established the initial project scope.
+
+**M2 — Data Source and Requirements**
+- Selected Open-Meteo Historical Weather API as the primary data source.
+- Identified 17 representative locations across the Philippine administrative regions.
+- Defined the required dataset fields and data dictionary.
+
+**M3 — Data Ingestion, Transformation, and SQL Analysis**
+- Implemented automated rainfall data ingestion using Python.
+- Stored raw API responses and retrieval metadata.
+- Created a cleaned dataset containing 5,168 observations.
+- Validated missing values, negative rainfall values, duplicate observations, and date coverage.
+- Developed three SQL business questions using DuckDB.
+
+**M4 — Initial Data Analysis and Visualization**
+- Explored extreme rainfall frequency across representative locations.
+- Analyzed monthly average rainfall patterns.
+- Compared total rainfall across locations.
+- Generated three initial visualizations and documented key findings.
+
+**M5 — Rainfall Distribution and Stakeholder Analysis**
+- **M5.1:** Calculated descriptive statistics and analyzed rainfall distributions.
+- **M5.2:** Segmented rainfall observations into project-defined rainfall categories.
+- **M5.3:** Developed location-level and monthly stakeholder KPIs.
+- **M5.4:** Prepared a stakeholder brief summarizing findings, operational implications, recommendations, and limitations.
+
+### Current Dataset Status
+
+- Reporting period: January 1 – October 31, 2026
+- Representative locations: 17
+- Observations per location: 304
+- Total observations: 5,168
+- Missing precipitation values: 0
+- Duplicate observations: 0
+- Extreme rainfall observations (>=50 mm): 54
+
+### Project Direction
+
+The project follows a descriptive and stakeholder-focused analytical approach rather than developing a predictive machine learning model.
+This approach is appropriate for the current dataset because its temporal coverage and geographic representation are limited.
+

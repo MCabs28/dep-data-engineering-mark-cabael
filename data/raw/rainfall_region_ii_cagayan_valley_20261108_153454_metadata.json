@@ -1,0 +1,12 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=17.6132&longitude=121.7269&start_date=2026-01-01&end_date=2026-10-31&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-11-08T15:34:54.976367",
+    "format": "JSON",
+    "region": "Region II (Cagayan Valley)",
+    "location": "Tuguegarao City",
+    "latitude": 17.6132,
+    "longitude": 121.7269,
+    "start_date": "2026-01-01",
+    "end_date": "2026-10-31"
+}

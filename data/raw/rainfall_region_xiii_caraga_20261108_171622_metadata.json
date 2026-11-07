@@ -1,0 +1,12 @@
+{
+    "source": "Open-Meteo Historical Weather API",
+    "source_url": "https://archive-api.open-meteo.com/v1/archive?latitude=8.9475&longitude=125.5406&start_date=2026-01-01&end_date=2026-10-31&daily=precipitation_sum&timezone=Asia%2FManila",
+    "retrieved_at": "2026-11-08T17:16:22.032815",
+    "format": "JSON",
+    "region": "Region XIII (Caraga)",
+    "location": "Butuan City",
+    "latitude": 8.9475,
+    "longitude": 125.5406,
+    "start_date": "2026-01-01",
+    "end_date": "2026-10-31"
+}
